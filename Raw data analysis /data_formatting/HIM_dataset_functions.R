@@ -106,16 +106,17 @@ get_duration_dist <- function(type = this_strain,
   return(dur_dist)
 }
 
+# Generate a dataframe for one individual listing the durations of all of their infections with a type
 get_individual_durations <- function(i, dataset , visit_times, ends = FALSE){
   durations <- data.frame(individual = i, 
                           durations = as.numeric(unlist(get_infection_durations( i, data = dataset, times_full=visit_times,count_ends = ends))))
   return(durations)
 }
 
+# Get list of infection durations for one individual
 get_infection_durations <- function( i, data, times_full, count_ends = FALSE){
   pat_inf <- data[i,grep("y",names(data))]
   times <- as.numeric(times_full[i,grep("v",names(times_full))])
-  #pat_vis <- sapply(times, as.Date, origin = '1970-1-1')
   pat_vis <- times
   infected_visits <- which(pat_inf==1)
   infected_dates <- pat_vis[infected_visits]
@@ -171,3 +172,11 @@ get_infection_durations <- function( i, data, times_full, count_ends = FALSE){
   return(dur)
 }
 
+## Make factor variables from binary covariates
+make_dummy_var <- function(vec,data){
+  # Create dummy variables 
+  for(level in unique(vec)){
+    data[paste(level)] <- as.factor(ifelse(vec == level, 1, 0))
+  }
+  return(data)
+}

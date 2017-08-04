@@ -1,18 +1,21 @@
 ################################################
 ## Generate figures from the raw data
 ################################################
-library(tidyverse)
 library(ggplot2)
 library(cowplot)
 library(RSQLite)
-library(directlabels)
 library(reshape)
 library(tidyr)
 library(viridis)
+library(polycor)
+library(corrplot)
+library(dplyr)
 select <- dplyr::select
 summarize <- dplyr::summarise
+rename <- dplyr::rename
 source("plot_themes.R")
 source("./data_formatting/HIM_dataset_functions.R")
+
 # Do you want to save the figures?
 save_plots = 1
 
@@ -25,6 +28,7 @@ tableNames <- dbListTables(db)
 inf_status <- dbReadTable(db,"infection_status_complete")
 visit_dates <- dbReadTable(db,"visit_dates_complete")
 clearance_params <- dbReadTable(db, "infection_duration_parameters")
+cov_data_v1 <- dbReadTable(db, "covariate_data_baseline_visit")
 dbDisconnect(db)
 
 HPV_types <- unique(inf_status$type)
@@ -174,7 +178,7 @@ p <- plot_grid(p1 + xlim(0,.125) + ylim(0,.125) + theme(aspect.ratio = 1),p2 +  
 
 ## Generate Figure corresponding to prevalence data 
 if(save_plots){
-  save_plot("./Figures/cor_prevalences.pdf",p, base_aspect_ratio=3)
+  save_plot("./Figures/country_prevalence_correlations.pdf",p, base_aspect_ratio=3)
 }
 
 #################################################
@@ -210,6 +214,47 @@ p <- ggplot() +
 
 ## Generate Figure corresponding to infection_duration_distribution 
 if(save_plots){
-  save_plot("./Figures/infection_durations.pdf", p, base_aspect_ratio = 1.3)
+  save_plot("./Figures/infection_duration_distributions.pdf", p, base_aspect_ratio = 1.3)
 }
 
+#################################################
+# Correlations from the covariate data ##
+#################################################
+cov_data <- make_dummy_var(cov_data_v1$country, cov_data_v1)
+cov_data$country <- NULL
+cov_data$subjectId <- NULL
+cov_data$visit <- NULL
+
+cov_data_test <- as.data.frame(apply(cov_data,2,as.numeric))
+cov_data_test$row_sum <- rowSums(cov_data_test)
+cov_data_drop <- which(is.na(cov_data_test$row_sum))
+cov_data <- cov_data[-cov_data_drop,]
+cov_data <- cov_data %>% rename("Brazil"= BZ,
+                                "Mexico" = MX, 
+                                "Age at sexual debut" = age_sexual_debut, 
+                                "Consistent condom use"= condom_use, 
+                                "Current smoker" =  current_smoker, 
+                                "Educational level" = educational,
+                                "# Lifetime female sex partners" =  lifetime_female,
+                                "# Lifetime male sex partners" =  lifetime_male,
+                                "# Recent female sex partners" =  diff_female, 
+                                "# Recent male sex partners" =  diff_male, 
+                                "Steady sex partner" = steady_partner,
+                                "Married" = married,
+                                "# New female partners" = new_female,
+                                "# New male partners" = new_male,
+                                "Age" = age,
+                                "Black/African American" = african_american,
+                                "Hispanic" = hispanic,
+                                "Circumcised" = circumcised)
+cov_data$US <- NULL
+binary_covs <- lapply(cov_data, class) == "character"
+cov_data[, binary_covs] <- lapply(cov_data[, binary_covs], as.factor)
+test_full <- hetcor(cov_data)
+test_cor_full <- test_full$correlations
+diag(test_cor_full) <- 0
+if(save_plots){
+  pdf("./Figures/baseline_covariate_correlations.pdf",width = 10, height = 8)
+  corrplot(test_cor_full, type = 'lower',tl.cex = 1,tl.col = "black", cl.cex = 1)
+  dev.off()
+}
