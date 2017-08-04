@@ -11,7 +11,7 @@ library(tidyr)
 library(viridis)
 select <- dplyr::select
 summarize <- dplyr::summarise
-source(".././Figures/plot_themes.R")
+source("plot_themes.R")
 source("./data_formatting/HIM_dataset_functions.R")
 # Do you want to save the figures?
 save_plots = 1
@@ -19,7 +19,7 @@ save_plots = 1
 ################################################
 # Load in the data:
 ################################################
-dbFilename <- "../Analysis/inference/Data/Data.sqlite"
+dbFilename <- "../Data/Data.sqlite"
 db <- dbConnect(SQLite(), dbFilename)
 tableNames <- dbListTables(db)
 inf_status <- dbReadTable(db,"infection_status_complete")
