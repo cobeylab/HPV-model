@@ -1,0 +1,2 @@
+# Analysis of raw data from the HIM study
+From this directory, execute `raw_data_figs.R` to generate descriptive plots for the raw data. The figures will be outputted to the `figures` directory as pdfs. 
