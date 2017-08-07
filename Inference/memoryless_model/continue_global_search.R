@@ -8,7 +8,6 @@ library(RSQLite)
 source("utility_functions.R")
 this_type <- "HPV16"
 chainId = 1
-
 # If running on a high-performance computing cluster ------------------------------------------------------
 #args = commandArgs(trailingOnly=TRUE)
 #chainId = as.numeric(args[1])
@@ -17,10 +16,10 @@ chainId = 1
 ## Find the starting parameters for this chain
 results_db <- paste0("./results/model_results_", this_type, ".sqlite")
 table_name <- paste0("global_params_",this_type)
-db <- dbConnect(SQLite(), dbFilename)
+db <- dbConnect(SQLite(), results_db)
 params <- dbReadTable(db,table_name) %>% filter(chain == chainId) %>% arrange(-c(n_mif))
 n_mif_completed <- params[1,]$n_mif
-params <- params[1,]  %>% select(-c(loglik, loglik_se, n_mif, n_part,chain,type))
+params <- params[1,]  %>% select(-c(loglik, loglik_se, n_mif, n_part,chain))
 dbDisconnect(db)
 guess <- unlist(params)
 
@@ -40,14 +39,10 @@ rw_sd_vec <- rw.sd(
   log_alpha_cov_9 = 0.005,
   log_alpha_cov_10 = 0.005,
   log_alpha_cov_11 = 0.005,
-  log_d0 = 0.005,
-  log_d1 = 0.005,
-  log_d2 = 0.005,
-  log_w = 0.005,
   logit_p_initial = ivp(.02),
   logit_fraction_remaining_initial = ivp(.02),
-  logit_p_prev = ivp(.02),
-  logit_f_prev = ivp(.02),
+  logit_p_prev = 0,
+  logit_f_prev = 0,
   logit_FP = 0,
   logit_FN = 0,
   time_step = 0
