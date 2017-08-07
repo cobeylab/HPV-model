@@ -1,6 +1,8 @@
 ################################################
 ## Generate figures from the raw data
 ################################################
+#!/usr/bin/Rscript
+
 library(ggplot2)
 library(cowplot)
 library(RSQLite)
