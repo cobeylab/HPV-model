@@ -57,6 +57,6 @@ n_particles_pfilter = 100e3
 n_reps_pfilter = 5
 evaluate_Lhood = TRUE
 pomp_filename <- paste0("./pomp_objects/pomp_object_", this_type, "_test.rda")
-chain_filename <- paste0("chain_",chainId,"_",this_type,".rda") 
-output_filename <- paste0("global_likelihood_search_", this_type, ".csv")
+chain_filename <- paste0("./results/chain_",chainId,"_",this_type,".rda") 
+output_filename <- paste0("./results/global_likelihood_search_", this_type, ".csv")
 source("global_search_methods.R")
