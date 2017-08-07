@@ -12,7 +12,7 @@ R CMD BATCH ./installation.R
 The packages should be installed in your R library.
 
 # Visualizing the Raw Data
-The data from the HPV in Men (HIM) study that was used in the modeling analysis is available in a Sqlite file in [Data](./Data). The [Raw data analysis](./Raw\ data\ analysis\ /) folder contains scripts to generate exploratory plots of the data. From the main repository directory, simply navigate to the [Raw data analysis](./Raw\ data\ analysis\ /) folder and execute the `raw_data_figs.R` script:
+The data from the HPV in Men (HIM) study that was used in the modeling analysis is available in a Sqlite file in [Data](./Data). The [Raw data analysis](./Raw\ data\ analysis\ /) folder contains scripts to generate exploratory plots of the data. From the main repository directory, simply navigate to the [Raw data analysis](Raw data analysis /) folder and execute the `raw_data_figs.R` script:
 ```
 cd Raw\ data\ analysis\ /
 R CMD BATCH ./raw_data_figs.R 
