@@ -20,7 +20,7 @@ if(!CONTINUATION){
   max_loglik <- as.numeric(dbFetch(loglik_query, n = -1))
   dbClearResult(loglik_query)
   param_set_query <- dbSendQuery(db, paste0("SELECT * FROM ",table_name," WHERE loglik > ", (max_loglik-LOGLIK_THRESH))) #loglik> (max(loglik)-50)")
-  profile_param_set <- dbFetch(param_set_query, n = -1) %>% select(-c( chain,  n_mif, loglik,loglik_se))
+  profile_param_set <- dbFetch(param_set_query, n = -1) %>% select(-c(n_mif, chain, loglik,loglik_se))
   dbClearResult(param_set_query)
   dbDisconnect(db)
   
@@ -28,8 +28,7 @@ if(!CONTINUATION){
   profile_param_set %>% select(-c(log_d0,
                                   logit_FP, 
                                   logit_FN,
-                                  n_part,
-                                  type
+                                  n_part
   )) %>% 
     melt(id=NULL) %>% 
     daply(~variable,function(x)range(x$value)) -> starting_params
@@ -37,7 +36,8 @@ if(!CONTINUATION){
                           lower=starting_params[,1],upper=starting_params[,2],
                           nprof=n_profile_reps)
   
-  
+   starts$logit_FP <- logit(FP_RATE)
+   starts$logit_FN <- logit(FN_RATE)
   #Specify random walk : Set the random walk of the profile parameter to zero. 
   rw_sd_vec <- rw.sd(
     log_lambda0= 0.0075,
@@ -66,6 +66,8 @@ if(!CONTINUATION){
     logit_FN = 0,
     time_step = 0
   )
+  starts$chainId <- c(1:nrow(starts))
+  n_mif_updated <- n_mif
 }
 
 if(CONTINUATION){
@@ -103,7 +105,7 @@ if(CONTINUATION){
     logit_FN = 0,
     time_step = 0
   )
-  
+  n_mif_updated <- n_mif_updated + n_mif
 }
 
 ## Initialize an empty dataframe of params to be filled in with the initial profile params. The values in this dataframe are arbitrary 
@@ -136,7 +138,8 @@ guess <- c(log_lambda0= log(runif(1,0.0001,1)),
            )
 
 source("profile_likelihood_methods.R")
-fit <- evaluate_profile_point(chainId = chainId, 
+load(pomp_filename)
+fit <- evaluate_profile_point(this_chain = chainId, 
                              guess = guess, 
                              starts = starts, 
                              n_part = n_particles, 
@@ -144,6 +147,7 @@ fit <- evaluate_profile_point(chainId = chainId,
                              n_mif_updated = n_mif_updated,
                              rw_sd_vec = rw_sd_vec,
                              n_particles_pfilter = n_particles_pfilter,
+                             n_reps_pfilter = n_reps_pfilter,
                              mif_chain_filename = chain_filename,
                              table_name = results_table_name, 
                              results_db = results_db, 

@@ -13,7 +13,7 @@ HPV_types <- c("HPV62", "HPV84", "HPV89", "HPV16", "HPV51", "HPV6")
 n_covariates = 11
 filter_clearance_events = TRUE
 this_type = HPV_types[type_index]
-data_filename <- paste0("../Data/Data.sqlite")
+data_filename <- paste0("../../Data/Data.sqlite")
 infection_data_table_name <- paste0("infection_data_",this_type)
 
 ## Read in the data  ------------------------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ dbDisconnect(db)
 ## Generate the pomp object ------------------------------------------------------------------------------------------------
 source("rprocess.R")
 source("./data_processing/make_one_panel_pomp_unit.R")
-pomp_filename <- paste0("./pomp_objects/pomp_object_",this_type,".rda")
+pomp_filename <- paste0("./pomp_objects/pomp_object_",this_type,"_test.rda")
 mean_dur = clearance_params %>% filter(Type == this_type) %>% select(Mean_duration)
 var_dur = clearance_params %>% filter(Type == this_type) %>% select(Variance_duration)
 guess <- c(log_lambda0= log(runif(1,0.0001,1)),
@@ -55,7 +55,7 @@ guess <- c(log_lambda0= log(runif(1,0.0001,1)),
            logit_fraction_remaining_initial = logit(runif(1,0.001,.999)),
            logit_p_prev = logit(runif(1,0.001,.999)),
            logit_f_prev = logit(runif(1,0.001,.999)),
-           time_step = 2/52
+           time_step = .5
 )
 source("./data_processing/data_to_pomp_object.R")
 

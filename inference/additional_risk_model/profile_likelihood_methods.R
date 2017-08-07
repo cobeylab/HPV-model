@@ -1,6 +1,6 @@
 
 ### ----------------------------------------------------------------------------------------------------------------------------
-evaluate_profile_point <- function(chainId, 
+evaluate_profile_point <- function(this_chain, 
                                   guess, 
                                   starts, 
                                   n_part, 
@@ -15,11 +15,10 @@ evaluate_profile_point <- function(chainId,
                                   results_db,
                                   output_filename,
                                   evaluate_Lhood){
-  init_params <- unlist(starts %>% select(-chainId))
+  init_params <- unlist(starts %>% filter(chainId == this_chain) %>% select(-chainId))
   guess[names(init_params)] <- init_params
   guess.shared <- guess[names(guess) %in% names(init_params)]
   guess.specific <- guess[!(names(guess) %in% names(init_params))]
-  cat("i is: ",i,"\n")
   start <- Sys.time()
   mf <- mif2(
       panelHPVShared,

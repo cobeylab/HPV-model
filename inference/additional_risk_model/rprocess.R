@@ -110,6 +110,7 @@ rprocess_additional_risk <- Csnippet("
                           }
                           x = infected;
                           t_cum = t_cum + tbv;
+                          
                         ")
 
 init_additional_risk <- Csnippet("
@@ -142,7 +143,6 @@ init_additional_risk <- Csnippet("
                        t_activate = -fraction_prev*infection_time;
                       }
                    }
-                 
                  ")
 
 
