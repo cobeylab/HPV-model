@@ -25,14 +25,14 @@ if(!CONTINUATION){
   dbDisconnect(db)
   
   # Update this to profile over the parameter of interest. Update the range of the profile sweep for the parameter of interest. 
-  profile_param_set %>% select(-c(log_d0,
+  profile_param_set %>% select(-c(log_d0, # parameter of interest 
                                   logit_FP, 
                                   logit_FN,
                                   n_part
   )) %>% 
     melt(id=NULL) %>% 
     daply(~variable,function(x)range(x$value)) -> starting_params
-    starts <- profileDesign(log_d0 = seq(from = -1, to = 6, length.out = n_profile_points),
+    starts <- profileDesign(log_d0 = seq(from = -1, to = 6, length.out = n_profile_points), #parameter of interest
                           lower=starting_params[,1],upper=starting_params[,2],
                           nprof=n_profile_reps)
   
