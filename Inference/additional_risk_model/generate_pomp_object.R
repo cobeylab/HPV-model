@@ -1,4 +1,6 @@
-## Parameter script for analyses
+## Generate a pomp object 
+#!/usr/bin/Rscript
+
 library(dplyr)
 library(pomp)
 library(parallel)
