@@ -81,6 +81,7 @@ min_date <- min(as.numeric(as.Date(dfm_dates$date)), na.rm=T)
 max_date <- max(as.numeric(as.Date(dfm_dates$date)), na.rm=T)
 
 date_seq <- seq(to = max_date, from = min_date, by = .6*365)
+date_seq <-  seq(from = as.Date(min(visit_dates$visitDate,na.rm=T)), to =  as.Date(max(visit_dates$visitDate,na.rm=T)), by = '6 months')
 df_all <- data.frame()
 
 for ( i in 1:length(HPV_types)){
