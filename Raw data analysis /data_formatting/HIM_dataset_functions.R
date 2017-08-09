@@ -20,14 +20,19 @@ countryFromSubjectId <- function(subjectId)
 get_prev <- function(this_type, st){
   inf <- inf_status %>% filter(type == this_type) %>% 
     select(-type)
-  dfm <- merge(inf, dfm_dates, by = c("subjectId","visitId"))
-  dfm$date <- as.numeric(as.Date(dfm$date))
-  prev <- array(NA, length(st))
-  for( i in 2:length(st)){
-    dfm %>% filter(date > st[i-1] & date < st[i] & !is.na(status)) -> dfm_sub
+  dfm <- merge(inf, visit_dates, by = c("subjectId","visitId"))
+  #dfm$date <- as.numeric(as.Date(dfm$date))
+  intervals <- sort(unique(dfm$int))
+  prev <- array(NA, length(intervals))
+  #for( i in 2:length(st)){
+    #dfm %>% filter(date > st[i-1] & date < st[i] & !is.na(status)) -> dfm_sub
+    #prev[i] <- sum(dfm_sub$status)/nrow(dfm_sub)
+ # }
+  for(i in c(1:length(intervals))){
+    dfm %>% filter(int == intervals[i] & !is.na(status)) -> dfm_sub
     prev[i] <- sum(dfm_sub$status)/nrow(dfm_sub)
   }
-  prev <- prev[-1]
+  #prev <- prev[-1]
   return(prev)
 }
 
@@ -60,6 +65,8 @@ removeInf <- function(x){
   x[(!is.finite(x) & !is.na(x))] <- NA
   return(x)
 }
+
+
 
 makeBinaryCov <- function(covariate){
   covTable <- table(covariate)

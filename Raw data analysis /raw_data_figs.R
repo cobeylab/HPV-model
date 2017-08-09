@@ -70,18 +70,9 @@ plot_mean_prev <- ggplot(mean_prev_df, aes(x = reorder(type, -mean), y = mean)) 
 ###############################################
 # Prevalence over time, model types ##
 ###############################################
-
-visit_dates <- reshape(visit_dates, timevar= "visitId", idvar = "subjectId", direction = "wide")
-numeric_vis_dates <- data.frame(visit_dates$subjectId, apply(visit_dates[,2:11],2,get_numeric_dates))
-names(numeric_vis_dates) <- c("subjectId",paste0("v",c(1:10)))
-names(visit_dates) <- c("subjectId",paste0("v",c(1:10)))
-dfm_dates <- melt(visit_dates, id.vars = "subjectId")
-names(dfm_dates) <- c("subjectId", "visitId","date")
-min_date <- min(as.numeric(as.Date(dfm_dates$date)), na.rm=T)
-max_date <- max(as.numeric(as.Date(dfm_dates$date)), na.rm=T)
-
-date_seq <- seq(to = max_date, from = min_date, by = .6*365)
-date_seq <-  seq(from = as.Date(min(visit_dates$visitDate,na.rm=T)), to =  as.Date(max(visit_dates$visitDate,na.rm=T)), by = '6 months')
+min_date = min(visit_dates$lower_bound,na.rm=T)
+max_date = max(visit_dates$upper_bound,na.rm=T)
+date_seq <- seq(to = max_date, from = min_date, by = .5*365)
 df_all <- data.frame()
 
 for ( i in 1:length(HPV_types)){
