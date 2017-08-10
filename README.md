@@ -21,7 +21,8 @@ R CMD BATCH ./raw_data_figs.R
 The figures will appear as pdfs in the [Figures](./Raw-data-analysis/figures) subdirectory.
 
 # Running the Model 
-Each model runs separately from a self-contained directory. The underlying dynamic model and the observation model are specified in `rprocess.R`. The code was written to run each MIF search, or "chain", as a separate process, such that the exploration of the likelihood surface from different starting conditions can be parallelized across computing cores. The inference proceeds as follows for any candidate model:
+Each model runs separately from a self-contained directory. The underlying dynamic model and the observation model are specified in `rprocess.R`. The code was written to run each MIF search, or "chain", as a separate process, such that the exploration of the likelihood surface from different starting conditions can be parallelized across computing cores. The `example` subdirectory of each model directory contains an `example_job_submission.sbatch` script to run parallel MIF searches using a high performance computing cluster. The inference proceeds as follows for any candidate model:
+
 1. **Generating a "pomp" object**  First, you will need to construct a pomp object with the data for the HPV type of interest. Update the parameters of the `generate_pomp_object.R` script to reflect the HPV type. The default is set to HPV16. Then run the `generate_pomp_object.R` script:
 ```
 R CMD BATCH ./generate_pomp_object.R
