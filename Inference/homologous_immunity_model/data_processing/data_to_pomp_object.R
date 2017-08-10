@@ -25,8 +25,8 @@ if(file.exists(pomp_filename)){
 
 if(!file.exists(pomp_filename)){
   pompList <- list()
-  pats <- c(1:nrow(data))
-  n.pat = length(pats)
+  pats <- c(1:10) #c(1:nrow(data))
+  n.pat = 10 #length(pats)
   pompList <- lapply(as.list(pats), FUN = make_pomp_panel)
   names(pompList) <- paste0("individual_",c(1:n.pat))
   hpv <- pompList[[1]]
