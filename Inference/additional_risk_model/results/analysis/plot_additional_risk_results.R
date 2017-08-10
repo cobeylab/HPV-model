@@ -1,3 +1,5 @@
+#!/usr/bin/Rscript
+
 #1.) Plot d across sexual subclasses for each type 
 d_params <- mle_df_all_types %>% filter(param_name %in% paste0("log_d",c(0:2))) %>% select(type, cov_name,MLE, LCI, UCI) 
 d_params$type <- toupper(d_params$type)

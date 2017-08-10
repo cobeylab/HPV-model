@@ -1,3 +1,5 @@
+#!/usr/bin/Rscript
+
 paste0("profile_results_", this_type, ".rda")
 df_d <- df_all %>% filter(param_name %in% c("log_d0","log_d1","log_d2")) 
 mcap_d <- mcap_predictions%>% filter(param_name %in% c("log_d0","log_d1","log_d2")) 

@@ -1,3 +1,5 @@
+#!/usr/bin/Rscript
+
 d_dist <- df_all %>% filter(type == "hpv16") 
 d_dist <- d_dist %>% group_by(time) %>% mutate(mean = mean(frac_d0), time_f = as.factor(paste0(time, " years")))
 d_dist <- d_dist %>% filter(round(time,2) %in% c(0,1,3))
