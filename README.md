@@ -42,13 +42,13 @@ an associated chain Id. This process will generate several output files in the `
 * A `.csv` file containing the output from the search (just in case there are overwrite issues with the SQLITE database due to many chains being run in parallel.)
 
 ## Calculating Confidence Intervals from Likelihood Profiles
-Once the profile likelihood search has been completed, select the point of maximum likelihood for each value of the profile parameter to represent the inferred parameter. Then, use the Monte Carlo Adjusted Profile (MCAP) method<sup>1</sup> to calculate a smoothed estimate of the profile and the corresponding 95% confidence interval. A function containing the MCAP algorithm is given in the `MCAP_algorithm.R` script within the `analysis` folder of the `results` subdirectory.
+Once the profile likelihood search has been completed, select the point of maximum likelihood for each value of the profile parameter to represent the inferred parameter. Then, use the Monte Carlo Adjusted Profile (MCAP) method<sup>1</sup> to calculate a smoothed estimate of the profile and the corresponding 95% confidence interval. Profiles were carrried out for the best-fit additional risk model, so the code to calculate the smoothed profiles and parameter estimates can be found in the [Additional risk model](./Inference/additional_risk_model) directory. A function containing the MCAP algorithm is given in the `MCAP_algorithm.R` script within the `analysis` folder of the `results` subdirectory. The `extract_profiles_and_MLEs.R` script in the `analysis` folder calculates the smootehd profile, MLE, and 95% CI for each parameter inferred for a specified HPV type.
 
-# Figures from model results 
+## Figures from model results 
+Scripts to generate figures from the model results can be found in the `analysis` folder of the `results` subdirectory of the [Additional risk model](./Inference/additional_risk_model) directory. The `generate_figures.R` script will generate the suite of figures and save the pdf results to the `figures` folder.
 
-
-# References
+## References
 1. Ionides EL, Breto C, Park J, Smith RA, King AA (2017) Monte Carlo profile confidence
  intervals for dynamic systems. Journal of The Royal Society Interface 14(132).
-2. 
+
 
