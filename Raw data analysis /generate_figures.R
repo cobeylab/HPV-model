@@ -100,7 +100,7 @@ plot_prev <- p + xlab("") +  scale_color_viridis(discrete = TRUE, option = "magm
 
 ## Generate Figure corresponding to prevalence data 
 if(save_plots){
-save_plot("./Figures/raw_data_prevalence.pdf",
+save_plot("./figures/raw_data_prevalence.pdf",
           plot_grid(plot_mean_prev, plot_prev, nrow=2 , align = "h", labels = c("A","B")),
           base_aspect_ratio = .9
           )
@@ -172,7 +172,7 @@ p <- plot_grid(p1 + xlim(0,.125) + ylim(0,.125) + theme(aspect.ratio = 1),p2 +  
 
 ## Generate Figure corresponding to prevalence data 
 if(save_plots){
-  save_plot("./Figures/country_prevalence_correlations.pdf",p, base_aspect_ratio=3)
+  save_plot("./figures/country_prevalence_correlations.pdf",p, base_aspect_ratio=3)
 }
 
 #################################################
@@ -208,7 +208,7 @@ p <- ggplot() +
 
 ## Generate Figure corresponding to infection_duration_distribution 
 if(save_plots){
-  save_plot("./Figures/infection_duration_distributions.pdf", p, base_aspect_ratio = 1.3)
+  save_plot("./figures/infection_duration_distributions.pdf", p, base_aspect_ratio = 1.3)
 }
 
 #################################################
@@ -248,7 +248,7 @@ test_full <- hetcor(cov_data)
 test_cor_full <- test_full$correlations
 diag(test_cor_full) <- 0
 if(save_plots){
-  pdf("./Figures/baseline_covariate_correlations.pdf",width = 10, height = 8)
+  pdf("./figures/baseline_covariate_correlations.pdf",width = 10, height = 8)
   corrplot(test_cor_full, type = 'lower',tl.cex = 1,tl.col = "black", cl.cex = 1)
   dev.off()
 }
