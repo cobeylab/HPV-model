@@ -1,6 +1,6 @@
 # Summary
 This model tests hypotheses about the dynamics of HPV infection by fitting type-specific models of HPV infection to longitudinal data in men. 
-The model is implemented in R, using an interface with C++ for the dynamic model within the "pomp" [package](http://kingaa.github.io/pomp/install.html).
+The model is implemented in R, using an interface with C++ for the dynamic model within the "pomp" [package](http://kingaa.github.io/pomp/install.html)<sup>1</sup>.
 
 # Requirements and Setup 
 The inference code was built and run using R version 3.3.2. R can be downloaded [here](https://www.r-project.org).
@@ -10,7 +10,7 @@ R CMD BATCH ./installation.R
 ```
 The packages should be installed in your R library.
 
-Before running any of the models, users may find it helpful to familiarize themselves with the *pomp* statistical inference software [1]. A helpful introduction can be found [here](https://kingaa.github.io/pomp/vignettes/getting_started.html).
+Before running any of the models, users may find it helpful to familiarize themselves with the *pomp* statistical inference software <sup>1</sup>. A helpful introduction can be found [here](https://kingaa.github.io/pomp/vignettes/getting_started.html).
 
 # Visualizing the Raw Data
 The data from the HPV in Men (HIM) study that was used in the modeling analysis is available in a Sqlite file in [Data](./Data). The [Raw data analysis](./Raw\ data\ analysis\ /) folder contains scripts to generate exploratory plots of the data. From the main repository directory, simply navigate to the [Raw data analysis](Raw data analysis /) folder and execute the `raw_data_figs.R` script:
@@ -42,13 +42,16 @@ an associated chain Id. This process will generate several output files in the `
 * A `.csv` file containing the output from the search (just in case there are overwrite issues with the SQLITE database due to many chains being run in parallel.)
 
 ## Calculating Confidence Intervals from Likelihood Profiles
-Once the profile likelihood search has been completed, select the point of maximum likelihood for each value of the profile parameter to represent the inferred parameter. Then, use the Monte Carlo Adjusted Profile (MCAP) method<sup>1</sup> to calculate a smoothed estimate of the profile and the corresponding 95% confidence interval. Profiles were carrried out for the best-fit additional risk model, so the code to calculate the smoothed profiles and parameter estimates can be found in the [Additional risk model](./Inference/additional_risk_model) directory. A function containing the MCAP algorithm is given in the `MCAP_algorithm.R` script within the `analysis` folder of the `results` subdirectory. The `extract_profiles_and_MLEs.R` script in the `analysis` folder calculates the smootehd profile, MLE, and 95% CI for each parameter inferred for a specified HPV type.
+Once the profile likelihood search has been completed, select the point of maximum likelihood for each value of the profile parameter to represent the inferred parameter. Then, use the Monte Carlo Adjusted Profile (MCAP) method<sup>2</sup> to calculate a smoothed estimate of the profile and the corresponding 95% confidence interval. Profiles were carrried out for the best-fit additional risk model, so the code to calculate the smoothed profiles and parameter estimates can be found in the [Additional risk model](./Inference/additional_risk_model) directory. A function containing the MCAP algorithm is given in the `MCAP_algorithm.R` script within the `analysis` folder of the `results` subdirectory. The `extract_profiles_and_MLEs.R` script in the `analysis` folder calculates the smootehd profile, MLE, and 95% CI for each parameter inferred for a specified HPV type.
 
 ## Figures from model results 
 Scripts to generate figures from the model results can be found in the `analysis` folder of the `results` subdirectory of the [Additional risk model](./Inference/additional_risk_model) directory. The `generate_figures.R` script will generate the suite of figures and save the pdf results to the `figures` folder.
 
 ## References
-1. Ionides EL, Breto C, Park J, Smith RA, King AA (2017) Monte Carlo profile confidence
+1. King AA, Nguyen D and Ionides EL (2015) Statistical inference for partially observed Markov processes via the R package pomp. arXiv preprint arXiv:1509.00503.
+
+2. Ionides EL, Breto C, Park J, Smith RA, King AA (2017) Monte Carlo profile confidence
  intervals for dynamic systems. Journal of The Royal Society Interface 14(132).
+ 
 
 
