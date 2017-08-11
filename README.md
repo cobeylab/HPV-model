@@ -18,7 +18,7 @@ The data from the HPV in Men (HIM) study that was used in the modeling analysis 
 cd Raw\ data\ analysis\ /
 R CMD BATCH ./generate_figures.R 
 ```
-The figures will appear as pdfs in the [Figures](./Raw-data-analysis/figures) subdirectory.
+The figures will appear as pdfs in the [figures](./Raw-data-analysis/figures) subdirectory.
 
 # Running the Model 
 Each model runs separately from a self-contained directory. Navigate to the directory corresponding to the model that you wish to run. The underlying dynamic model and the observation model are specified in `rprocess.R`. The code was written to run each MIF search, or "chain", as a separate process, such that the exploration of the likelihood surface from different starting conditions can be parallelized across computing cores. The `example` subdirectory of each model directory contains an `example_job_submission.sbatch` script to run parallel MIF searches using a high performance computing cluster. The inference proceeds as follows for any candidate model:

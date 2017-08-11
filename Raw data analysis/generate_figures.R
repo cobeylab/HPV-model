@@ -6,7 +6,7 @@
 library(ggplot2)
 library(cowplot)
 library(RSQLite)
-library(reshape)
+library(reshape2)
 library(tidyr)
 library(viridis)
 library(polycor)
