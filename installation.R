@@ -13,7 +13,6 @@ install.packages(c("plyr",
                  "tidyr",
                  "reshape2",
                  "stringr",
-                 "parallel",
                  "ggplot2",
                  "cowplot",
                  "RSQLite",
@@ -23,6 +22,7 @@ install.packages(c("plyr",
                  "gridExtra",
                  "devtools",
                  "pomp"),
+                 dependencies = T,
                  Sys.getenv("R_LIBS_USER"), 
-                 repos = "http://cran.case.edu"
+                 repos = 'http://cran.us.r-project.org'
                  )
