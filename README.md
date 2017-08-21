@@ -8,7 +8,7 @@ The code requires several packages that are not part of the base R installations
 ```
 R CMD BATCH ./installation.R 
 ```
-The packages should be installed in your R library.
+The packages should be installed in your R library. 
 
 Before running any of the models, users may find it helpful to familiarize themselves with the *pomp* statistical inference software <sup>1</sup>. A helpful introduction can be found [here](https://kingaa.github.io/pomp/vignettes/getting_started.html).
 
